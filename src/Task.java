@@ -1,5 +1,7 @@
+import java.util.Objects;
+
 public class Task {
-    private final int id;
+    private int id;
     Status status;
     String name;
     String description;
@@ -21,24 +23,11 @@ public class Task {
         return status;
     }
 
-    public Task(int id, Status status,String name, String description ) {
-        this.id = id;
+    public Task( Status status,String name, String description ) {
         this.status = status;
         this.name = name;
         this.description = description;
     }
-
-
-    @Override
-    public String toString() {
-        return "Task{" +
-                "id=" + id +
-                ", status=" + status +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                '}';
-    }
-
     public void setStatus(Status status) {
         this.status = status;
     }
@@ -50,5 +39,29 @@ public class Task {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id=" + id +
+                ", status=" + status +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return id == task.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+
 }
 
