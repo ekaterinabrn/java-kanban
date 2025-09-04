@@ -23,8 +23,15 @@ private int nextId;
     void deleteAllTask(){
         tasks.clear();
     }
+    public List<Epic> getAllEpic(){
+        return  new ArrayList<>(epics.values());
+    }
+
     Task getTaskById(int id){
        return tasks.get(id) ;
+    }
+    Epic getEpicById(int id){
+        return epics.get(id);
     }
 
 
