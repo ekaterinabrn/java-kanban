@@ -1,6 +1,10 @@
 import java.util.Objects;
 
 public class Task {
+    public void setId(int id) {
+        this.id = id;
+    }
+
     private int id;
     Status status;
     String name;
