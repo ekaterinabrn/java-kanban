@@ -12,13 +12,8 @@ public class Main {
         tasks.add(new Task(TaskPriority.LOW, "Купить пылесос."));
 
         System.out.println("Задачи с наивысшим приоритетом на сегодня:");
-        // Цикл for для поиска задач с приоритетом HIGH
-        for (Task task : tasks) {
-            if (task.getTaskPriority() == TaskPriority.HIGH) {
-                System.out.println(task.getDescription());
-            }
-        }
-    }
+
+
         System.out.println("Поехали!");
     }
-
+}

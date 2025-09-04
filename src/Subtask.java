@@ -22,6 +22,6 @@ public class Subtask extends Task{
                 ", name='" + name + '\'' +
                 "description='" + description + '\'' +
                 ", epicId=" + epicId +
-                '}';
+                '}';   //нафиг я два раза тут придумала айди я еще не решила
     }
 }
