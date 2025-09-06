@@ -3,14 +3,12 @@ import java.util.List;
 
 public class Epic extends Task {
 
-
-    //private final List<Integer> subtaskId = new ArrayList<>();
     private List<Subtask> subtasks = new ArrayList<>();
 
     public Epic(String name, String description) {
         super(Status.NEW, name, description); //статус всегда нью
     }
-
+public List<Subtask> getSubtasks(){return subtasks;}
    public List<Integer> getSubtaskId() {
        List<Integer> subtaskId = new ArrayList<>();
        for(Subtask s : subtasks){
@@ -22,11 +20,16 @@ public class Epic extends Task {
 
    public void addSubtask(Subtask s) {
        subtasks.add(s);
+       updateStatus();
    }
 
    public void deleteSubtask(Subtask s) {
        subtasks.remove(s);
+       updateStatus();
    }
+    public void deleteAllSubtasks() {
+        subtasks.clear();  // Очищает список субтасок эпика
+    }
 
 
 //    если у эпика нет подзадач или все они имеют статус NEW, то статус должен быть NEW.
@@ -44,15 +47,26 @@ public class Epic extends Task {
         }
         return Status.DONE;
     }
+    public void updateStatus() {
+        this.setStatus(getEpicStatus());
+    }
+    public void updateSubtask(Subtask subtasks) {
+        for (int i = 0; i < this.subtasks.size(); i++) {
+            if (this.subtasks.get(i).getId() == subtasks.getId()) {
+                this.subtasks.set(i, subtasks);
+                updateStatus();
+                return;
+            }
+        }}
 
     @Override
     public String toString() {
         return "Epic{" +
                 "id=" + getId() +
                 "subtaskId=" + getSubtaskId() +
-                ", status=" + status +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
+                ", status=" + getStatus() +
+                ", name='" + getName() + '\'' +
+                ", description='" + getDescription() + '\'' +
                 '}';
     }
 }
