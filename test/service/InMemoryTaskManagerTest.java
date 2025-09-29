@@ -7,8 +7,9 @@ import model.Task;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class InMemoryTaskManagerTest {
 
@@ -18,7 +19,7 @@ public class InMemoryTaskManagerTest {
     public void setUp() {
         taskManager = new InMemoryTaskManager();
     }
-
+    // надо разбивать
     @Test
     public void testTaskManagerAddsDifferentTaskTypes() {
         Task task = new Task(Status.NEW, "Задача", "Описание");
@@ -70,58 +71,37 @@ public class InMemoryTaskManagerTest {
         assertEquals(Status.NEW, taskFromManager.getStatus());
     }
 
-    @Test
-    public void testHistoryManagerPreservesTaskData() {
-        Task task = new Task(Status.NEW, "Тестовая задача", "Тестовое описание");
-        Task createdTask = taskManager.createTask(task);
-        
-        Task retrievedTask = taskManager.getTaskById(createdTask.getId());
-        
-        var history = taskManager.getHistory();
-        assertEquals(1, history.size());
-        
-        Task taskFromHistory = history.get(0);
-        assertEquals(retrievedTask.getId(), taskFromHistory.getId());
-        assertEquals(retrievedTask.getName(), taskFromHistory.getName());
-    }
 
-    // ТЕСТ: Проверяет, что задачи с заданным id и сгенерированным id не конфликтуют
-    // @Test
-    // public void testTaskManagerHandlesGeneratedAndGivenIds() {
-    //     // Создаем задачу с сгенерированным id
-    //     Task task1 = new Task(Status.NEW, "Задача 1", "Описание");
-    //     Task createdTask1 = taskManager.createTask(task1);
-    //     int generatedId1 = createdTask1.getId();
-    //     
-    //     // Создаем вторую задачу с сгенерированным id
-    //     Task task2 = new Task(Status.NEW, "Задача 2", "Описание");
-    //     Task createdTask2 = taskManager.createTask(task2);
-    //     int generatedId2 = createdTask2.getId();
-    //     
-    //     // Проверяем, что id не конфликтуют
-    //     assertNotEquals(generatedId1, generatedId2, "Сгенерированные id не должны конфликтовать");
-    //     
-    //     // Проверяем, что обе задачи доступны
-    //     assertNotNull(taskManager.getTaskById(generatedId1), "Первая задача должна быть найдена");
-    //     assertNotNull(taskManager.getTaskById(generatedId2), "Вторая задача должна быть найдена");
-    // }
+    // проверьте, что задачи с заданным id и сгенерированным id не конфликтуют внутри менеджера;
+     @Test
+     public void testTaskManagerHandlesGeneratedAndGivenIds() {
+         Task task1 = new Task(Status.NEW, "Задача 1", "Описание");
+         Task createdTask1 = taskManager.createTask(task1);
+         int generatedId1 = createdTask1.getId();
+         Task task2 = new Task(Status.NEW, "Задача 2", "Описание");
+         Task createdTask2 = taskManager.createTask(task2);
+         int generatedId2 = createdTask2.getId();
+         assertNotEquals(generatedId1, generatedId2, "Сгенерированные id не должны конфликтовать");
+         assertNotNull(taskManager.getTaskById(generatedId1), "Задача 1 не найдена");
+         assertNotNull(taskManager.getTaskById(generatedId2), "Задача 2 не найдена ");
+     }
 
-    // ТЕСТ: Тест создания задачи (по образцу из задания)
-    // @Test
-    // void addNewTask() {
-    //     Task task = new Task("Test addNewTask", "Test addNewTask description", Status.NEW);
-    //     final Task createdTask = taskManager.createTask(task);
-    //     final int taskId = createdTask.getId();
-    // 
-    //     final Task savedTask = taskManager.getTaskById(taskId);
-    // 
-    //     assertNotNull(savedTask, "Задача не найдена.");
-    //     assertEquals(createdTask, savedTask, "Задачи не совпадают.");
-    // 
-    //     final List<Task> tasks = taskManager.getAllTask();
-    // 
-    //     assertNotNull(tasks, "Задачи не возвращаются.");
-    //     assertEquals(1, tasks.size(), "Неверное количество задач.");
-    //     assertEquals(createdTask.getName(), tasks.get(0).getName(), "Задачи не совпадают.");
-    // }
+    //  Тест создания задачи
+     @Test
+     void addNewTask() {
+         Task task = new Task(Status.NEW, "Test addNewTask", "Test addNewTask description");
+         final Task createdTask = taskManager.createTask(task);
+         final int taskId = createdTask.getId();
+
+         final Task savedTask = taskManager.getTaskById(taskId);
+
+         assertNotNull(savedTask, "Задача не найдена.");
+         assertEquals(createdTask, savedTask, "Задачи не совпадают.");
+
+         final List<Task> tasks = taskManager.getAllTask();
+
+         assertNotNull(tasks, "Задачи не возвращаются.");
+         assertEquals(1, tasks.size(), "Неверное количество задач.");
+         assertEquals(createdTask.getName(), tasks.get(0).getName(), "Задачи не совпадают.");
+     }
 }

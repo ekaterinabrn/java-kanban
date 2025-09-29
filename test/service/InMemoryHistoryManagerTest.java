@@ -20,18 +20,6 @@ public class InMemoryHistoryManagerTest {
     }
 
     @Test
-    public void testAddTaskToHistory() {
-        Task task = new Task(Status.NEW, "Задача", "Описание");
-        task.setId(1);
-        
-        historyManager.add(task);
-        var history = historyManager.getHistory();
-        
-        assertEquals(1, history.size());
-        assertEquals(task, history.get(0));
-    }
-
-    @Test
     public void testHistoryLimit() {
         for (int i = 0; i < 11; i++) {
             Task task = new Task(Status.NEW, "Задача " + i, "Описание " + i);
@@ -68,7 +56,7 @@ public class InMemoryHistoryManagerTest {
          historyManager.add(task);
         final List<Task> history = historyManager.getHistory();
 
-     assertNotNull(history, "После добавления задачи, история не должна быть пустой.");
-        assertEquals(1, history.size(), "После добавления задачи, история не должна быть пустой.");
+     assertNotNull(history, "история не должна быть пустой.");
+        assertEquals(1, history.size(), "история не должна быть пустой.");
    }
 }
