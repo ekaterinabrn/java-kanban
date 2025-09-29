@@ -3,15 +3,26 @@ package model;
 import java.util.Objects;
 
 public class Task {
+    private int id;
+    private Status status;
+    private String name;
+    private String description;
+
+    public Task(Status status, String name, String description) {
+        this.status = status;
+        this.name = name;
+        this.description = description;
+    }
+    public Task(Task newTask) {
+        this.id = newTask.id;
+        this.status = newTask.status;
+        this.name = newTask.name;
+        this.description = newTask.description;
+        // конструктор для копии
+    }
     public void setId(int id) {
         this.id = id;
     }
-
-    private int id;
-    Status status;
-    String name;
-    String description;
-
 
     public int getId() {
         return id;
@@ -29,11 +40,6 @@ public class Task {
         return status;
     }
 
-    public Task(Status status, String name, String description ) {
-        this.status = status;
-        this.name = name;
-        this.description = description;
-    }
     public void setStatus(Status status) {
         this.status = status;
     }
@@ -55,6 +61,7 @@ public class Task {
                 ", description='" + description + '\'' +
                 '}';
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -9,12 +9,21 @@ public class Subtask extends Task {
         this.epicId = epicId;
     }
 
+    public Subtask(Subtask subtask) {
+        super(subtask.getStatus(), subtask.getName(), subtask.getDescription());
+        setId(subtask.getId());
+        this.epicId = subtask.getEpicId();
+    }
+
     public int getEpicId() {
         return epicId;
     }
 
     public void setEpicId(int epicId) {
-        this.epicId = epicId;
+        // Проверяем, что подзадача не ссылается сама на себя
+        if (epicId != getId()) {
+            this.epicId = epicId;
+        }
     }
 
 

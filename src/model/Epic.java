@@ -10,17 +10,27 @@ public class Epic extends Task {
 
    public List<Integer> getSubtaskIds() {
        return new ArrayList<>(subtaskIds);
-    } // не убрала дубль не хватает ума как тогда переделать в менеджере)) могу стереть из менеджера метод
+    }
 
 
     public Epic(String name, String description) {
         super(Status.NEW, name, description); //статус всегда нью
     }
 
+    public Epic(Epic epic) {
+        super(epic.getStatus(), epic.getName(), epic.getDescription());
+        setId(epic.getId());
+        for (Integer subtaskId : epic.getSubtaskIds()) {
+            this.subtaskIds.add(subtaskId);
+        }
+    }
+
 
     public void addSubtaskId(int subtaskId) {
-        subtaskIds.add(subtaskId);
-
+        //  эпик не добавляет сам себя в подзадачи а то тест падал
+        if (subtaskId != getId()) {
+            subtaskIds.add(subtaskId);
+        }
     }
 
     public void removeSubtaskId(int subtaskId) {
