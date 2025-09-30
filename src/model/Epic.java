@@ -8,8 +8,8 @@ public class Epic extends Task {
 
     private final List<Integer> subtaskIds = new ArrayList<>();
 
-   public List<Integer> getSubtaskIds() {
-       return new ArrayList<>(subtaskIds);
+    public List<Integer> getSubtaskIds() {
+        return new ArrayList<>(subtaskIds);
     }
 
 

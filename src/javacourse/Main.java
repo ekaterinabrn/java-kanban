@@ -15,18 +15,18 @@ public class Main {
         // Создание задач
         Task task1 = new Task(Status.NEW, "Задача 1", "Описание задачи 1");
         Task task2 = new Task(Status.NEW, "Задача 2", "Описание задачи 2");
-        
+
         Task createdTask1 = manager.createTask(task1);
         Task createdTask2 = manager.createTask(task2);
-        
+
         // Создание эпика
         Epic epic1 = new Epic("Эпик 1", "Описание эпика 1");
         Epic createdEpic1 = manager.createEpic(epic1);
-        
+
         // Создание подзадач
         Subtask subtask1 = new Subtask(Status.NEW, "Подзадача 1", "Описание подзадачи 1", createdEpic1.getId());
         Subtask subtask2 = new Subtask(Status.NEW, "Подзадача 2", "Описание подзадачи 2", createdEpic1.getId());
-        
+
         Subtask createdSubtask1 = manager.createSubtask(subtask1);
         Subtask createdSubtask2 = manager.createSubtask(subtask2);
 
@@ -48,7 +48,7 @@ public class Main {
         for (Task task : manager.getAllTask()) {
             System.out.println(task);
         }
-        
+
         System.out.println("Эпики:");
         for (Task epic : manager.getAllEpics()) {
             System.out.println(epic);
@@ -56,7 +56,7 @@ public class Main {
                 System.out.println(" " + task);
             }
         }
-        
+
         System.out.println("Подзадачи:");
         for (Task subtask : manager.getAllSubtask()) {
             System.out.println(subtask);

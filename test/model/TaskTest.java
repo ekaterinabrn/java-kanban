@@ -1,11 +1,18 @@
 package model;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TaskTest {
+    private static final String TASK_DESCRIPTION = "Описание ";
+    private static final String TASK_NAME = "Имя";
+    private static final String ORIGINAL_NAME = "Оригинал";
+    private static final String CHANGED_NAME = "Изменено";
 
+
+    @DisplayName("проверка равенста таск с одним  айди но раззными др полями")
     @Test
     public void testTaskEqualityWithSameId() {
         Task task1 = new Task(Status.NEW, "Задача 1", "Описание 1");
@@ -17,19 +24,21 @@ public class TaskTest {
         assertEquals(task1, task2);
         assertEquals(task1.hashCode(), task2.hashCode());
     }
-//растащить на тесты проверки каждого поля
+
+
     @Test
-    public void testTaskSettersAndGetters() {
-        Task task = new Task(Status.NEW, "Имя", "Описание");
+    public void taskSettersAndGettersTest() {
+        Task task = new Task(Status.NEW, TASK_NAME, TASK_DESCRIPTION);
         task.setId(10);
 
         assertEquals(10, task.getId());
         assertEquals(Status.NEW, task.getStatus());
-        assertEquals("Имя", task.getName());
-        assertEquals("Описание", task.getDescription());
+        assertEquals(TASK_NAME, task.getName());
+        assertEquals(TASK_DESCRIPTION, task.getDescription());
     }
 
-    // Тест для equals - позитив
+
+    @DisplayName("задачи с одинаковым ID равны")
     @Test
     public void testTaskEqualsWithSameId() {
         Task task1 = new Task(Status.NEW, "Задача 1", "Описание 1");
@@ -41,7 +50,8 @@ public class TaskTest {
         assertEquals(task1, task2);
     }
 
-    // Тест для equals негатив
+
+    @DisplayName("задачи с разными ID не равны")
     @Test
     public void testTaskNotEqualsWithDifferentId() {
         Task task1 = new Task(Status.NEW, "Задача 1", "Описание 1");
@@ -54,10 +64,10 @@ public class TaskTest {
     }
 
 
-    // Тест копирующего конструктора - проверка совпадения айди
+    @DisplayName("Копирующий конструктор копирует ID корректно")
     @Test
     public void testTaskCopyConstructorId() {
-        Task originalTask = new Task(Status.IN_PROGRESS, "Оригинал", "Описание");
+        Task originalTask = new Task(Status.IN_PROGRESS, ORIGINAL_NAME, TASK_DESCRIPTION);
         originalTask.setId(5);
 
         Task copiedTask = new Task(originalTask);
@@ -65,10 +75,10 @@ public class TaskTest {
         assertEquals(originalTask.getId(), copiedTask.getId());
     }
 
-    // Тест копирующего конструктора - проверка совпадения статуса
+    @DisplayName("Копирующий конструктор копирует статус корректно")
     @Test
     public void testTaskCopyConstructorStatus() {
-        Task originalTask = new Task(Status.IN_PROGRESS, "Оригинал", "Описание");
+        Task originalTask = new Task(Status.IN_PROGRESS, ORIGINAL_NAME, TASK_DESCRIPTION);
         originalTask.setId(5);
 
         Task copiedTask = new Task(originalTask);
@@ -76,10 +86,10 @@ public class TaskTest {
         assertEquals(originalTask.getStatus(), copiedTask.getStatus());
     }
 
-    // Тест  копирующего конструктора - проверка совпадения имени
+
     @Test
     public void testTaskCopyConstructorName() {
-        Task originalTask = new Task(Status.IN_PROGRESS, "Оригинал", "Описание");
+        Task originalTask = new Task(Status.IN_PROGRESS, ORIGINAL_NAME, TASK_DESCRIPTION);
         originalTask.setId(5);
 
         Task copiedTask = new Task(originalTask);
@@ -87,10 +97,10 @@ public class TaskTest {
         assertEquals(originalTask.getName(), copiedTask.getName());
     }
 
-    // Тест  копирующего конструктора - проверка совпадения описания
+
     @Test
     public void testTaskCopyConstructorDescription() {
-        Task originalTask = new Task(Status.IN_PROGRESS, "Оригинал", "Описание");
+        Task originalTask = new Task(Status.IN_PROGRESS, ORIGINAL_NAME, TASK_DESCRIPTION);
         originalTask.setId(5);
 
         Task copiedTask = new Task(originalTask);
@@ -98,10 +108,10 @@ public class TaskTest {
         assertEquals(originalTask.getDescription(), copiedTask.getDescription());
     }
 
-    // Тест для копирующего конструктора
+
     @Test
     public void testTaskCopyConstructor() {
-        Task taskask = new Task(Status.IN_PROGRESS, "Original", "Описание");
+        Task taskask = new Task(Status.IN_PROGRESS, ORIGINAL_NAME, TASK_DESCRIPTION);
         taskask.setId(5);
 
         Task copiedTask = new Task(taskask);
@@ -109,8 +119,8 @@ public class TaskTest {
         assertNotSame(taskask, copiedTask);
 
         // Изменение оригинала не влияет на копию
-        taskask.setName("Изменено");
-        assertNotEquals("Изменено", copiedTask.getName());
+        taskask.setName(CHANGED_NAME);
+        assertNotEquals(CHANGED_NAME, copiedTask.getName());
     }
 
 }
