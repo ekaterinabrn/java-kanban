@@ -6,9 +6,11 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class EpicTest {
+    private static final String EPIC_NAME = "Эпик";
+    private static final String EPIC_DESCRIPTION = "Описание";
 
 
-    @DisplayName("")
+    @DisplayName("проверка равенста эпиков с одним  айди но раззными др полями")
     @Test
     public void testEpicEqualityWithSameId() {
         Epic epic1 = new Epic("Эпик 1", "Описание 1");
@@ -21,10 +23,10 @@ public class EpicTest {
         assertEquals(epic1.hashCode(), epic2.hashCode());
     }
 
-    @DisplayName("")
+    @DisplayName("Добавление subtasks в Epic увеличивает список")
     @Test
-    public void testAddSubtasks() {
-        Epic epic = new Epic("эпик один", "Описание");
+        public void subtasksAddedSuccessfullyTest() {
+        Epic epic = new Epic(EPIC_NAME, EPIC_DESCRIPTION);
         epic.setId(1);
 
         epic.addSubtaskId(10);
@@ -35,10 +37,10 @@ public class EpicTest {
         assertTrue(epic.getSubtaskIds().contains(20));
     }
 
-    @DisplayName("")
+    @DisplayName("Удаление подзадачи из эпика  уменьшает список и исключает удаленный ID")
     @Test
-    public void testRemoveSubtask() {
-        Epic epic = new Epic("эпик один", "Описание");
+    public void subtaskRemovedFromEpicSuccessfullyTest() {
+        Epic epic = new Epic(EPIC_NAME, EPIC_DESCRIPTION);
         epic.setId(1);
         epic.addSubtaskId(10);
         epic.addSubtaskId(20);
@@ -50,10 +52,10 @@ public class EpicTest {
         assertFalse(epic.getSubtaskIds().contains(20));
     }
 
-    @DisplayName("")
+    @DisplayName("Удаление всех подзадач очищает список эпика")
     @Test
-    public void testDeleteAllSubtasks() {
-        Epic epic = new Epic("эпик один", "Описание");
+    public void deleteAllSubtasksFromEpicSubtasksClearedTest() {
+        Epic epic = new Epic(EPIC_NAME, EPIC_DESCRIPTION);
         epic.setId(1);
         epic.addSubtaskId(10);
         epic.addSubtaskId(20);
@@ -63,18 +65,17 @@ public class EpicTest {
         assertTrue(epic.getSubtaskIds().isEmpty());
     }
 
-    @DisplayName("")
+    @DisplayName("Инициализация Epic устанавливает статус NEW")
     @Test
-    public void testEpicInitialStatus() {
-        Epic epic = new Epic("Эпик", "Описание эпика");
+    public void epicStatusSetToNewTest() {
+        Epic epic = new Epic(EPIC_NAME, EPIC_DESCRIPTION);
         assertEquals(Status.NEW, epic.getStatus());
     }
 
     @DisplayName("Epic нельзя добавить в самого себя в виде подзадачи")
-
     @Test
     public void testEpicCannotAddItselfAsSubtask() {
-        Epic epic = new Epic("Эпик", "Описание");
+        Epic epic = new Epic(EPIC_NAME, EPIC_DESCRIPTION);
         epic.setId(1);
         epic.addSubtaskId(1);
         assertFalse(epic.getSubtaskIds().contains(1), "Объект Epic нельзя добавить в самого себя в виде подзадачи");
