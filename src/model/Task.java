@@ -13,6 +13,7 @@ public class Task {
         this.name = name;
         this.description = description;
     }
+
     public Task(Task newTask) {
         this.id = newTask.id;
         this.status = newTask.status;
@@ -20,6 +21,7 @@ public class Task {
         this.description = newTask.description;
         // конструктор для копии
     }
+
     public void setId(int id) {
         this.id = id;
     }
