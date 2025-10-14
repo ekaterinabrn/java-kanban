@@ -17,7 +17,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class TaskManagerHistoryIntegrationTest {
     
     private TaskManager taskManager;
-    
+    private static final String DESCRIPTION = "Описание";
+    private static final String EPIC_ONE = "Эпик 1";
     @BeforeEach
     void setUp() {
         taskManager = Managers.getDefault();
@@ -27,9 +28,9 @@ class TaskManagerHistoryIntegrationTest {
     @DisplayName("Удаление задачи из менеджера удаляет её из истории")
     void shouldRemoveTaskFromHistoryWhenDeletedTest() {
         // Создаём задачи
-        Task task1 = taskManager.createTask(new Task(Status.NEW, "Task 1", "Description 1"));
-        Task task2 = taskManager.createTask(new Task(Status.NEW, "Task 2", "Description 2"));
-        Task task3 = taskManager.createTask(new Task(Status.NEW, "Task 3", "Description 3"));
+        Task task1 = taskManager.createTask(new Task(Status.NEW, "Task 1", DESCRIPTION));
+        Task task2 = taskManager.createTask(new Task(Status.NEW, "Task 2", DESCRIPTION));
+        Task task3 = taskManager.createTask(new Task(Status.NEW, "Task 3", DESCRIPTION));
         
         // Просматриваем задачи
         taskManager.getTaskById(task1.getId());
@@ -54,8 +55,8 @@ class TaskManagerHistoryIntegrationTest {
     @DisplayName("Удаление всех задач очищает историю")
     void shouldRemoveAllTasksFromHistoryWhenDeletedAll() {
         // Создаём несколько задач
-        Task task1 = taskManager.createTask(new Task(Status.NEW, "Task 1", "Description 1"));
-        Task task2 = taskManager.createTask(new Task(Status.NEW, "Task 2", "Description 2"));
+        Task task1 = taskManager.createTask(new Task(Status.NEW, "Task 1", DESCRIPTION));
+        Task task2 = taskManager.createTask(new Task(Status.NEW, "Task 2", DESCRIPTION));
         
         // Просматриваем задачи
         taskManager.getTaskById(task1.getId());
@@ -74,14 +75,14 @@ class TaskManagerHistoryIntegrationTest {
     @DisplayName("Удаление эпика удаляет его и все подзадачи из истории")
     void shouldRemoveEpicAndSubtasksFromHistoryWhenEpicDeleted() {
         // Создаём эпик
-        Epic epic = taskManager.createEpic(new Epic("Epic 1", "Epic Description"));
+        Epic epic = taskManager.createEpic(new Epic(EPIC_ONE, DESCRIPTION));
         
         // Создаём подзадачи
         Subtask subtask1 = taskManager.createSubtask(
-            new Subtask(Status.NEW, "Subtask 1", "Description 1", epic.getId())
+            new Subtask(Status.NEW, "Subtask 1", DESCRIPTION, epic.getId())
         );
         Subtask subtask2 = taskManager.createSubtask(
-            new Subtask(Status.NEW, "Subtask 2", "Description 2", epic.getId())
+            new Subtask(Status.NEW, "Subtask 2", DESCRIPTION, epic.getId())
         );
         
         // Просматриваем эпик и подзадачи
@@ -106,12 +107,12 @@ class TaskManagerHistoryIntegrationTest {
     @DisplayName("Удаление подзадачи удаляет её из истории")
     void shouldRemoveSubtaskFromHistoryWhenDeletedTest() {
         // Создаём эпик и подзадачи
-        Epic epic = taskManager.createEpic(new Epic("Epic 1", "Epic Description"));
+        Epic epic = taskManager.createEpic(new Epic(EPIC_ONE, DESCRIPTION));
         Subtask subtask1 = taskManager.createSubtask(
-            new Subtask(Status.NEW, "Subtask 1", "Description 1", epic.getId())
+            new Subtask(Status.NEW, "Subtask 1", DESCRIPTION, epic.getId())
         );
         Subtask subtask2 = taskManager.createSubtask(
-            new Subtask(Status.NEW, "Subtask 2", "Description 2", epic.getId())
+            new Subtask(Status.NEW, "Subtask 2", DESCRIPTION, epic.getId())
         );
         
         // Просматриваем эпик и подзадачи
@@ -136,12 +137,12 @@ class TaskManagerHistoryIntegrationTest {
     @DisplayName("Удаление всех подзадач очищает их из истории")
     void shouldRemoveAllSubtasksFromHistoryWhenDeletedAll() {
         // Создаём эпик и подзадачи
-        Epic epic = taskManager.createEpic(new Epic("Epic 1", "Epic Description"));
+        Epic epic = taskManager.createEpic(new Epic(EPIC_ONE, DESCRIPTION));
         Subtask subtask1 = taskManager.createSubtask(
-            new Subtask(Status.NEW, "Subtask 1", "Description 1", epic.getId())
+            new Subtask(Status.NEW, "Subtask 1", DESCRIPTION, epic.getId())
         );
         Subtask subtask2 = taskManager.createSubtask(
-            new Subtask(Status.NEW, "Subtask 2", "Description 2", epic.getId())
+            new Subtask(Status.NEW, "Subtask 2", DESCRIPTION, epic.getId())
         );
         
         // Просматриваем все
@@ -162,14 +163,14 @@ class TaskManagerHistoryIntegrationTest {
     @DisplayName("Удаление всех эпиков очищает историю")
     void shouldRemoveAllEpicsAndSubtasksFromHistoryWhenDeletedAll() {
         // Создаём несколько эпиков с подзадачами
-        Epic epic1 = taskManager.createEpic(new Epic("Epic 1", "Description 1"));
+        Epic epic1 = taskManager.createEpic(new Epic(EPIC_ONE, DESCRIPTION));
         Subtask subtask1 = taskManager.createSubtask(
-            new Subtask(Status.NEW, "Subtask 1", "Description", epic1.getId())
+            new Subtask(Status.NEW, "Subtask 1", DESCRIPTION, epic1.getId())
         );
         
-        Epic epic2 = taskManager.createEpic(new Epic("Epic 2", "Description 2"));
+        Epic epic2 = taskManager.createEpic(new Epic("Epic 2", DESCRIPTION));
         Subtask subtask2 = taskManager.createSubtask(
-            new Subtask(Status.NEW, "Subtask 2", "Description", epic2.getId())
+            new Subtask(Status.NEW, "Subtask 2", DESCRIPTION, epic2.getId())
         );
         
         // Просматриваем все
@@ -219,7 +220,7 @@ class TaskManagerHistoryIntegrationTest {
     @Test
     @DisplayName("Удаление задачи, которую просматривали несколько раз")
     void shouldRemoveTaskFromHistoryEvenIfViewedMultipleTimes() {
-        Task task = taskManager.createTask(new Task(Status.NEW, "Task", "Description"));
+        Task task = taskManager.createTask(new Task(Status.NEW, "Task", DESCRIPTION));
         
         // Просматриваем задачу несколько раз
         taskManager.getTaskById(task.getId());
