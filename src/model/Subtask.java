@@ -26,7 +26,6 @@ public class Subtask extends Task {
         }
     }
 
-
     @Override
     public String toString() {
         return "model.Subtask{" +

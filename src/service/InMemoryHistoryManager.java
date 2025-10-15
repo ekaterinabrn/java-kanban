@@ -70,13 +70,10 @@ public class InMemoryHistoryManager implements HistoryManager {
         }
         Node newNode = linkLast(task);
         idNode.put(taskId, newNode);
-
     }
-
 
     @Override
     public void remove(int id) {
-
         Node node = idNode.get(id);
 
         if (node != null) {
@@ -90,11 +87,3 @@ public class InMemoryHistoryManager implements HistoryManager {
         return getTasks();
     }
 }
-
-
-
-
-
-
-
-

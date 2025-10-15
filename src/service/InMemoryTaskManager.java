@@ -32,7 +32,6 @@ public class InMemoryTaskManager implements TaskManager {
         Task savedTask = new Task(newTask);
         tasks.put(savedTask.getId(), savedTask);
         return new Task(savedTask);
-
     }
 
     @Override
@@ -206,7 +205,6 @@ public class InMemoryTaskManager implements TaskManager {
         return null;
     }
 
-
     @Override
     public void deleteSubtaskById(int id) {
         Subtask sub = subtask.get(id);
@@ -221,7 +219,6 @@ public class InMemoryTaskManager implements TaskManager {
             }
         }
     }
-
 
     @Override
     public void deleteAllSubtask() {
@@ -266,7 +263,6 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public List<Task> getHistory() {
-
         return historyManager.getHistory();
     }
 }
