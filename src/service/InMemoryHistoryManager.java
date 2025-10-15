@@ -22,7 +22,7 @@ public class InMemoryHistoryManager implements HistoryManager {
             first = newNode;
         else
             oldTail.next = newNode;
-        
+
         return newNode;
     }
 
@@ -30,16 +30,16 @@ public class InMemoryHistoryManager implements HistoryManager {
         if (node == null) {
             return;
         }
-        
+
         Node prevNode = node.prev;
         Node nextNode = node.next;
-        
+
         if (prevNode == null) {
             first = nextNode;
         } else {
             prevNode.next = nextNode;
         }
-        
+
         if (nextNode == null) {
             last = prevNode;
         } else {
