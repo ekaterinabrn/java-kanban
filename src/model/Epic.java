@@ -5,13 +5,11 @@ import java.util.List;
 
 public class Epic extends Task {
 
-
     private final List<Integer> subtaskIds = new ArrayList<>();
 
     public List<Integer> getSubtaskIds() {
         return new ArrayList<>(subtaskIds);
     }
-
 
     public Epic(String name, String description) {
         super(Status.NEW, name, description); //статус всегда нью
@@ -24,7 +22,6 @@ public class Epic extends Task {
             this.subtaskIds.add(subtaskId);
         }
     }
-
 
     public void addSubtaskId(int subtaskId) {
         //  эпик не добавляет сам себя в подзадачи а то тест падал
@@ -40,7 +37,6 @@ public class Epic extends Task {
     public void deleteAllSubtasks() {
         subtaskIds.clear();
     }
-
 
     @Override
     public String toString() {
