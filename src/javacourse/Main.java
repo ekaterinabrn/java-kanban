@@ -45,7 +45,7 @@ public class Main {
         Epic createdEpic2 = manager.createEpic(epic2);
 
         System.out.println("=== Просмотр задач для формирования истории ===");
-        
+
         // тз:  Запросите созданные задачи несколько раз в разном порядке.- Запросы в разном порядке с повторными запросами
         manager.getTaskById(createdTask1.getId());
         manager.getEpicById(createdEpic1.getId());
@@ -54,7 +54,6 @@ public class Main {
         manager.getSubtaskById(createdSubtask2.getId());
         manager.getEpicById(createdEpic2.getId());
         manager.getSubtaskById(createdSubtask3.getId());
-        
 
         manager.getTaskById(createdTask1.getId());
         manager.getEpicById(createdEpic1.getId());
