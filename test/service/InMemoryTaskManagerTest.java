@@ -23,7 +23,6 @@ public class InMemoryTaskManagerTest {
     public void setUp() {
         taskManager = new InMemoryTaskManager();
     }
-    // надо разбивать
 
     @Test
     @DisplayName("Возможность добавления разных типов задач - при добавлении увеличивает их количество в списке")
@@ -78,7 +77,7 @@ public class InMemoryTaskManagerTest {
     }
 
 
-    // проверьте, что задачи с заданным id и сгенерированным id не конфликтуют внутри менеджера;
+
     @Test
     @DisplayName("Задачи с заданным ID и сгенерированным ID не конфликтуют внутри менеджера")
      public void tasks_NoIdConflictsTest() {

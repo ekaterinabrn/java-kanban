@@ -22,7 +22,7 @@ public class InMemoryHistoryManagerTest {
 
     @Test
     @DisplayName("Тест сколько задач может быть в истории(убран лимит 10)")
-    //для ревью : убираем веть есть void shouldAllowUnlimitedHistorySize() ????
+    //для ревью : убираем  же,? есть void shouldAllowUnlimitedHistorySize() ????-не ответил в прошл раз
     public void testHistoryLimit() {
         for (int i = 0; i < 11; i++) {
             Task task = new Task(Status.NEW, "Задача " + i, "Описание " + i);

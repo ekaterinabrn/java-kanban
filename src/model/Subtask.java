@@ -36,4 +36,9 @@ public class Subtask extends Task {
                 ", epicId=" + getEpicId() +
                 '}';
     }
+//тип подзадача
+    @Override
+    public TaskType getType() {
+        return TaskType.SUBTASK;
+    }
 }

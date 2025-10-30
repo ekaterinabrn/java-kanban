@@ -54,6 +54,11 @@ public class Task {
         this.description = description;
     }
 
+    // тип задачи
+    public TaskType getType() {
+        return TaskType.TASK;
+    }
+
     @Override
     public String toString() {
         return "model.Task{" +
