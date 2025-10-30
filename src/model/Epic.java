@@ -49,6 +49,7 @@ public class Epic extends Task {
                 '}';
     }
 //тип эпик
+
     @Override
     public TaskType getType() {
         return TaskType.EPIC;
