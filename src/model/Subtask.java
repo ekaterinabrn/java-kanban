@@ -37,6 +37,7 @@ public class Subtask extends Task {
                 '}';
     }
 //тип подзадача
+
     @Override
     public TaskType getType() {
         return TaskType.SUBTASK;
