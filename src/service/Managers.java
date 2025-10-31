@@ -1,9 +1,12 @@
 package service;
 
-public class Managers {
+import java.io.File;
 
+public class Managers {
+//перенесен  getDefault
     public static TaskManager getDefault() {
-        return new InMemoryTaskManager();
+        File file = new File("kanban.csv");
+        return new FileBackedTaskManager(file);
     }
 
     public static HistoryManager getDefaultHistory() {

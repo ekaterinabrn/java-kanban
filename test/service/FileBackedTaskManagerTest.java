@@ -29,9 +29,7 @@ public class FileBackedTaskManagerTest {
     @DisplayName("Сохранение и загрузка пустого файла")
     public void saveAndLoadEmptyFileTest() throws IOException {
         FileBackedTaskManager manager = new FileBackedTaskManager(tempFile);
-        
-        // ИЗМЕНЕНО: конструктор больше не пишет заголовок сам — проверяем только загрузку
-        
+
         FileBackedTaskManager loadedManager = FileBackedTaskManager.loadFromFile(tempFile);
         
         assertEquals(0, loadedManager.getAllTask().size());
