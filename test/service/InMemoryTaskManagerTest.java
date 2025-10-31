@@ -23,10 +23,9 @@ public class InMemoryTaskManagerTest {
     public void setUp() {
         taskManager = new InMemoryTaskManager();
     }
-    // надо разбивать
 
-   @DisplayName("возможность добавления разных типов задач- при добавлении  увеличивает их количество в списке ")
     @Test
+    @DisplayName("Возможность добавления разных типов задач - при добавлении увеличивает их количество в списке")
     public void addDifferentTaskTypesTest() {
         Task task = new Task(Status.NEW, TASK_NAME, DESCRIPTION);
         Task createdTask = taskManager.createTask(task);
@@ -45,8 +44,8 @@ public class InMemoryTaskManagerTest {
         assertEquals(1, taskManager.getAllEpics().size());
         assertEquals(1, taskManager.getAllSubtask().size());
     }
-    @DisplayName("Поиск задачи по ID возвращает  искомую задачу")
     @Test
+    @DisplayName("Поиск задачи по ID возвращает искомую задачу")
     public void getTaskByIdReturnsCorrectTaskTest() {
         Task task = new Task(Status.NEW, TASK_NAME, DESCRIPTION);
         Task createdTask = taskManager.createTask(task);
@@ -58,8 +57,8 @@ public class InMemoryTaskManagerTest {
         assertEquals(taskId, foundTask.getId());
         assertEquals(TASK_NAME, foundTask.getName());
     }
-    @DisplayName("тест не изменности задачи сохраеннной менеджером")
     @Test
+    @DisplayName("Тест неизменности задачи, сохранённой менеджером")
     public void taskInManagerIsImmutableTest() {
         Task originalTask = new Task(Status.NEW, "Оригинал", DESCRIPTION);
         originalTask.setId(999);
@@ -78,9 +77,9 @@ public class InMemoryTaskManagerTest {
     }
 
 
-    // проверьте, что задачи с заданным id и сгенерированным id не конфликтуют внутри менеджера;
-    @DisplayName("задачи с заданным id и сгенерированным id не конфликтуют внутри менеджера")
+
     @Test
+    @DisplayName("Задачи с заданным ID и сгенерированным ID не конфликтуют внутри менеджера")
      public void tasks_NoIdConflictsTest() {
          Task task1 = new Task(Status.NEW, "Задача 1", DESCRIPTION);
          Task createdTask1 = taskManager.createTask(task1);
@@ -95,6 +94,7 @@ public class InMemoryTaskManagerTest {
 
     //  Тест создания задачи
      @Test
+     @DisplayName("Добавление новой задачи")
      void addNewTaskTest() {
          Task task = new Task(Status.NEW, "Test addNewTask", "Test addNewTask description");
          final Task createdTask = taskManager.createTask(task);

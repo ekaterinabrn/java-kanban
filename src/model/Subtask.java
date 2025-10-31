@@ -26,7 +26,6 @@ public class Subtask extends Task {
         }
     }
 
-
     @Override
     public String toString() {
         return "model.Subtask{" +
@@ -36,5 +35,11 @@ public class Subtask extends Task {
                 "description='" + getDescription() + '\'' +
                 ", epicId=" + getEpicId() +
                 '}';
+    }
+//тип подзадача
+
+    @Override
+    public TaskType getType() {
+        return TaskType.SUBTASK;
     }
 }
