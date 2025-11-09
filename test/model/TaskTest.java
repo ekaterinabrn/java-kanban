@@ -12,8 +12,8 @@ public class TaskTest {
     private static final String CHANGED_NAME = "Изменено";
 
 
-    @DisplayName("проверка равенста таск с одним  айди но раззными др полями")
     @Test
+    @DisplayName("Задачи с одинаковым ID равны")
     public void testTaskEqualityWithSameId() {
         Task task1 = new Task(Status.NEW, "Задача 1", "Описание 1");
         Task task2 = new Task(Status.IN_PROGRESS, "Задача 2", "Описание 2");
@@ -27,6 +27,7 @@ public class TaskTest {
 
 
     @Test
+    @DisplayName("Сеттеры и геттеры задачи работают корректно")
     public void taskSettersAndGettersTest() {
         Task task = new Task(Status.NEW, TASK_NAME, TASK_DESCRIPTION);
         task.setId(10);
@@ -38,8 +39,8 @@ public class TaskTest {
     }
 
 
-    @DisplayName("задачи с одинаковым ID равны")
     @Test
+    @DisplayName("Задачи равны при одинаковом ID")
     public void testTaskEqualsWithSameId() {
         Task task1 = new Task(Status.NEW, "Задача 1", "Описание 1");
         Task task2 = new Task(Status.IN_PROGRESS, "Задача 2", "Описание 2");
@@ -51,8 +52,8 @@ public class TaskTest {
     }
 
 
-    @DisplayName("задачи с разными ID не равны")
     @Test
+    @DisplayName("Задачи не равны при разных ID")
     public void testTaskNotEqualsWithDifferentId() {
         Task task1 = new Task(Status.NEW, "Задача 1", "Описание 1");
         Task task2 = new Task(Status.IN_PROGRESS, "Задача 2", "Описание 2");
@@ -64,8 +65,8 @@ public class TaskTest {
     }
 
 
-    @DisplayName("Копирующий конструктор копирует ID корректно")
     @Test
+    @DisplayName("Конструктор копирования сохраняет ID")
     public void testTaskCopyConstructorId() {
         Task originalTask = new Task(Status.IN_PROGRESS, ORIGINAL_NAME, TASK_DESCRIPTION);
         originalTask.setId(5);
@@ -75,8 +76,8 @@ public class TaskTest {
         assertEquals(originalTask.getId(), copiedTask.getId());
     }
 
-    @DisplayName("Копирующий конструктор копирует статус корректно")
     @Test
+    @DisplayName("Конструктор копирования сохраняет статус")
     public void testTaskCopyConstructorStatus() {
         Task originalTask = new Task(Status.IN_PROGRESS, ORIGINAL_NAME, TASK_DESCRIPTION);
         originalTask.setId(5);
@@ -88,6 +89,7 @@ public class TaskTest {
 
 
     @Test
+    @DisplayName("Конструктор копирования сохраняет имя")
     public void testTaskCopyConstructorName() {
         Task originalTask = new Task(Status.IN_PROGRESS, ORIGINAL_NAME, TASK_DESCRIPTION);
         originalTask.setId(5);
@@ -99,6 +101,7 @@ public class TaskTest {
 
 
     @Test
+    @DisplayName("Конструктор копирования сохраняет описание")
     public void testTaskCopyConstructorDescription() {
         Task originalTask = new Task(Status.IN_PROGRESS, ORIGINAL_NAME, TASK_DESCRIPTION);
         originalTask.setId(5);
@@ -110,6 +113,7 @@ public class TaskTest {
 
 
     @Test
+    @DisplayName("Конструктор копирования создаёт полную копию")
     public void testTaskCopyConstructor() {
         Task taskask = new Task(Status.IN_PROGRESS, ORIGINAL_NAME, TASK_DESCRIPTION);
         taskask.setId(5);

@@ -13,8 +13,8 @@ public class SubtaskTest {
     private static final int ID_TEN = 10;
 
 
-    @DisplayName("проверка равенста сабтаск с одним  айди но раззными др полями")
     @Test
+    @DisplayName("Подзадачи с одинаковым ID равны")
     public void testSubtaskEqualityWithSameId() {
         Subtask subtask1 = new Subtask(Status.NEW, "Подзадача 1", SUBTASK_DESCRIPTION, 1);
         Subtask subtask2 = new Subtask(Status.IN_PROGRESS, "Подзадача 2", SUBTASK_DESCRIPTION, 2);
@@ -26,16 +26,16 @@ public class SubtaskTest {
         assertEquals(subtask1.hashCode(), subtask2.hashCode());
     }
 
-    @DisplayName("тест попадания подзадачи в нужный эпик")
     @Test
+    @DisplayName("Подзадача инициализируется с ID эпика")
     public void testSubtaskInitEpicId() {
         Subtask subtask = new Subtask(Status.NEW, "Подзадача", "Описание", 5);
 
         assertEquals(5, subtask.getEpicId());
     }
 
-    @DisplayName("Установка epicId через сеттер")
     @Test
+    @DisplayName("ID эпика подзадачи можно изменить")
     public void testSubtaskSetEpicId() {
         Subtask subtask = new Subtask(Status.NEW, "Подзадача", "Описание", 5);
 
@@ -43,9 +43,8 @@ public class SubtaskTest {
         assertEquals(ID_TEN, subtask.getEpicId());
     }
 
-    @DisplayName("Subtask нельзя сделать своим же эпиком")
-    // Subtask нельзя сделать своим же эпиком
     @Test
+    @DisplayName("Подзадача не может быть своим эпиком")
     public void testSubtaskCantBeOwnEpic() {
         Subtask subtask = new Subtask(Status.NEW, SUBTASK_NAME, SUBTASK_DESCRIPTION, EPIC_ID_INITIAL);
         subtask.setId(ID_TEN);
