@@ -9,8 +9,8 @@ public class Task {
     private Status status;
     private String name;
     private String description;
-    private Duration duration; // продолжительность задачи в минутах
-    private LocalDateTime startTime; // дата и время начала выполнения задачи
+    private Duration duration;
+    private LocalDateTime startTime;
 
     public Task(Status status, String name, String description) {
         this.status = status;
@@ -22,10 +22,8 @@ public class Task {
         this.status = newTask.status;
         this.name = newTask.name;
         this.description = newTask.description;
-        //меняем  копирование- добавление новых полей duration и startTime
         this.duration = newTask.duration;
         this.startTime = newTask.startTime;
-        // конструктор для копии
     }
     public void setId(int id) {
         this.id = id;
@@ -75,12 +73,15 @@ public class Task {
         this.startTime = startTime;
     }
 
-    // метод для расчета времени завершения задачи
     public LocalDateTime getEndTime() {
         if (startTime == null || duration == null) {
             return null;
         }
         return startTime.plus(duration);
+    }
+
+    public TaskType getType() {
+        return TaskType.TASK;
     }
 
     @Override

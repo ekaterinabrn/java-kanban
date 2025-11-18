@@ -20,6 +20,8 @@ public class InMemoryHistoryManagerTest {
     }
 
     @Test
+    @DisplayName("Тест сколько задач может быть в истории(убран лимит 10)")
+    //для ревью : убираем  же,? есть void shouldAllowUnlimitedHistorySize() ????-не ответил в прошл раз
     public void testHistoryLimit() {
         for (int i = 0; i < 11; i++) {
             Task task = new Task(Status.NEW, "Задача " + i, "Описание " + i);
@@ -28,10 +30,11 @@ public class InMemoryHistoryManagerTest {
         }
         
         var history = historyManager.getHistory();
-        assertEquals(10, history.size());
+        assertEquals(11, history.size());
     }
 
     @Test
+    @DisplayName("История сохраняет данные задач")
     public void testHistoryPreservesTaskData() {
         Task originalTask = new Task(Status.DONE, "Оригинальная задача", "Оригинальное описание");
         originalTask.setId(5);
@@ -49,6 +52,7 @@ public class InMemoryHistoryManagerTest {
 
     // Тест добавления в историю
      @Test
+     @DisplayName("Добавление задачи в историю")
     void add() {
        Task task = new Task(Status.NEW, "Test Task", "Test Description");
         task.setId(1);
