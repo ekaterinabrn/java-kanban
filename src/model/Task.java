@@ -23,6 +23,7 @@ public class Task {
         this.status = newTask.status;
         this.name = newTask.name;
         this.description = newTask.description;
+        //меняем  копирование- добавление новых полей duration и startTime
         this.duration = newTask.duration;
         this.startTime = newTask.startTime;
     }

@@ -42,6 +42,7 @@ public class Epic extends Task {
         subtaskIds.clear();
     }
 
+    // сеттер для endTime
     public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
     }

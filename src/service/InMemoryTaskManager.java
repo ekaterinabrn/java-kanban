@@ -12,11 +12,12 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class InMemoryTaskManager implements TaskManager {
-    private int nextId = 1;
-    private final HashMap<Integer, Task> tasks = new HashMap<>();
-    private final HashMap<Integer, Epic> epics = new HashMap<>();
-    private final HashMap<Integer, Subtask> subtask = new HashMap<>();
-    private final HistoryManager historyManager;
+    //меняем модификатор доступа
+    protected int nextId = 1;
+    protected final HashMap<Integer, Task> tasks = new HashMap<>();
+    protected final HashMap<Integer, Epic> epics = new HashMap<>();
+    protected final HashMap<Integer, Subtask> subtask = new HashMap<>();
+    protected final HistoryManager historyManager;
 
     public InMemoryTaskManager() {
         this.historyManager = Managers.getDefaultHistory();
@@ -32,9 +33,8 @@ public class InMemoryTaskManager implements TaskManager {
         int id = generateNextId();
         newTask.setId(id);
         newTask.setStatus(Status.NEW);
-        // проверка на пересечение с другими задачами
         if (isTaskOverlapping(newTask, id)) {
-            return null; // задача не создается, если пересекается с существующей
+            return null;
         }
         Task savedTask = new Task(newTask);
         tasks.put(savedTask.getId(), savedTask);
@@ -45,11 +45,9 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void updateTask(Task updateTask) {
         if (tasks.containsKey(updateTask.getId())) {
-            //проверка на пересечение с другими задачами
             if (isTaskOverlapping(updateTask, updateTask.getId())) {
-                return; // обновление не выполняется, если есть пересечение
+                return;
             }
-            // конструктор копирования, который копирует все поля включая duration и startTime
             Task savedTask = new Task(updateTask);
             savedTask.setId(updateTask.getId());
             tasks.put(updateTask.getId(), savedTask);
@@ -67,7 +65,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void deleteAllTask() {
         for (Integer taskId : tasks.keySet()) {
-            historyManager.remove(taskId); // удаление из истории
+            historyManager.remove(taskId);
         }
         tasks.clear();
     }
@@ -76,7 +74,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void deleteTaskById(int id) {
         tasks.remove(id);
-        historyManager.remove(id); //  удаление из истории
+        historyManager.remove(id);
     }
 
     @Override
@@ -125,13 +123,13 @@ public class InMemoryTaskManager implements TaskManager {
                 List<Integer> subtaskIds = e.getSubtaskIds();
                 for (Integer id : subtaskIds) {
                     subtask.remove(id);
-                    historyManager.remove(id); //  удаление подзадач из истории
+                    historyManager.remove(id);
                 }
                 e.deleteAllSubtasks();
             }
         }
         for (Integer epicId : epics.keySet()) {
-            historyManager.remove(epicId); // удаление эпиков из истории
+            historyManager.remove(epicId);
         }
         subtask.clear();
         epics.clear();
@@ -143,9 +141,9 @@ public class InMemoryTaskManager implements TaskManager {
         Epic epic = epics.remove(id);
         if (epic != null) {
             List<Integer> subtaskId = epic.getSubtaskIds();
-            for (Integer SubId : subtaskId) {
-                subtask.remove(SubId);
-                historyManager.remove(SubId);
+            for (Integer subId : subtaskId) {
+                subtask.remove(subId);
+                historyManager.remove(subId);
             }
             historyManager.remove(id);
         }
@@ -177,9 +175,8 @@ public class InMemoryTaskManager implements TaskManager {
     public Subtask createSubtask(Subtask subtasks) {
         int id = generateNextId();
         subtasks.setId(id);
-        //проверка на пересечение с другими задачами
         if (isTaskOverlapping(subtasks, id)) {
-            return null; // подзадача не создается, если пересекается с существующей
+            return null;
         }
         Subtask savedSubtask = new Subtask(subtasks);
         subtask.put(id, savedSubtask);
@@ -196,9 +193,8 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void updateSubtask(Subtask subtasks) {
         if (subtask.containsKey(subtasks.getId())) {
-            // проверка на пересечение с другими задачами
             if (isTaskOverlapping(subtasks, subtasks.getId())) {
-                return; // обновление не выполняется, если есть пересечение
+                return;
             }
             Subtask savedSubtask = new Subtask(subtasks);
             subtask.put(subtasks.getId(), savedSubtask);
@@ -232,16 +228,16 @@ public class InMemoryTaskManager implements TaskManager {
             if (e != null) {
                 e.removeSubtaskId(id);
                 e.setStatus(calculateEpicStatus(e));
+                // пересчет полей времени эпика при удалении подзадачи
                 updateEpicTimeFields(e);
             }
         }
     }
 
-    // удаление подзадач из истории
     @Override
     public void deleteAllSubtask() {
         for (Integer subtaskId : subtask.keySet()) {
-            historyManager.remove(subtaskId); // удаление из истории
+            historyManager.remove(subtaskId);
         }
         for (Epic e : epics.values()) {
             if (e != null) {
@@ -287,7 +283,6 @@ public class InMemoryTaskManager implements TaskManager {
             return;
         }
 
-        // Используем Stream API для фильтрации подзадач с заданным временем
         List<Subtask> subtasks = subtaskIds.stream()
                 .map(subtask::get)
                 .filter(sub -> sub != null && sub.getStartTime() != null && sub.getDuration() != null)
@@ -300,19 +295,16 @@ public class InMemoryTaskManager implements TaskManager {
             return;
         }
 
-        // Находим минимальное время начала
         LocalDateTime minStartTime = subtasks.stream()
                 .map(Subtask::getStartTime)
                 .min(LocalDateTime::compareTo)
                 .orElse(null);
 
-        // Находим максимальное время завершения
         LocalDateTime maxEndTime = subtasks.stream()
                 .map(Subtask::getEndTime)
                 .max(LocalDateTime::compareTo)
                 .orElse(null);
 
-        // Суммируем продолжительности всех подзадач
         Duration totalDuration = subtasks.stream()
                 .map(Subtask::getDuration)
                 .reduce(Duration.ZERO, Duration::plus);
@@ -323,7 +315,6 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
 
-    //  математический метод наложения отрезков
     private boolean isTasksOverlapping(Task task1, Task task2) {
         if (task1.getStartTime() == null || task1.getDuration() == null ||
             task2.getStartTime() == null || task2.getDuration() == null) {
@@ -335,7 +326,6 @@ public class InMemoryTaskManager implements TaskManager {
         LocalDateTime start2 = task2.getStartTime();
         LocalDateTime end2 = task2.getEndTime();
 
-        // Задачи пересекаются, если start1 < end2 И start2 < end1
         return start1.isBefore(end2) && start2.isBefore(end1);
     }
 
@@ -344,7 +334,6 @@ public class InMemoryTaskManager implements TaskManager {
             return false;
         }
 
-        // Собираем все задачи и подзадачи (кроме проверяемой) с заданным временем
         List<Task> allTasks = Stream.concat(
                 tasks.values().stream(),
                 subtask.values().stream()
@@ -352,19 +341,15 @@ public class InMemoryTaskManager implements TaskManager {
          .filter(task -> task.getStartTime() != null && task.getDuration() != null)
          .collect(Collectors.toList());
 
-        // Проверяем пересечение с каждой задачей
         return allTasks.stream().anyMatch(task -> isTasksOverlapping(newTask, task));
     }
 
-    // Метод для получения задач в порядке приоритета (спринт 8)
-    // Задачи без startTime не включаются в список
     @Override
     public List<Task> getPrioritizedTasks() {
         Set<Task> prioritizedSet = new TreeSet<>(Comparator
                 .comparing(Task::getStartTime, Comparator.nullsLast(Comparator.naturalOrder()))
                 .thenComparing(Task::getId));
 
-        // Добавляем задачи с заданным временем начала
         prioritizedSet.addAll(tasks.values().stream()
                 .filter(task -> task.getStartTime() != null)
                 .collect(Collectors.toList()));
