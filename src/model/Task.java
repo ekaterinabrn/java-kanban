@@ -1,5 +1,7 @@
 package model;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Task {
@@ -7,6 +9,8 @@ public class Task {
     private Status status;
     private String name;
     private String description;
+    private Duration duration; // продолжительность задачи в минутах
+    private LocalDateTime startTime; // дата и время начала выполнения задачи
 
     public Task(Status status, String name, String description) {
         this.status = status;
@@ -18,6 +22,9 @@ public class Task {
         this.status = newTask.status;
         this.name = newTask.name;
         this.description = newTask.description;
+        //меняем  копирование- добавление новых полей duration и startTime
+        this.duration = newTask.duration;
+        this.startTime = newTask.startTime;
         // конструктор для копии
     }
     public void setId(int id) {
@@ -50,6 +57,30 @@ public class Task {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Duration getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    // метод для расчета времени завершения задачи
+    public LocalDateTime getEndTime() {
+        if (startTime == null || duration == null) {
+            return null;
+        }
+        return startTime.plus(duration);
     }
 
     @Override

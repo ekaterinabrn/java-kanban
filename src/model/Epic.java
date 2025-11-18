@@ -1,11 +1,15 @@
 package model;
 
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Epic extends Task {
 
-
+    // ДОБАВЛЕНО: Поле endTime для хранения времени завершения эпика (спринт 8)
+    // duration и startTime наследуются от Task, но являются расчетными
+    private LocalDateTime endTime;
     private final List<Integer> subtaskIds = new ArrayList<>();
 
     public List<Integer> getSubtaskIds() {
@@ -17,9 +21,10 @@ public class Epic extends Task {
         super(Status.NEW, name, description); //статус всегда нью
     }
 
+    // ИЗМЕНЕНО: Обновлен конструктор копирования для поддержки новых полей (спринт 8)
     public Epic(Epic epic) {
-        super(epic.getStatus(), epic.getName(), epic.getDescription());
-        setId(epic.getId());
+        super(epic); // копирует все поля включая duration и startTime
+        this.endTime = epic.endTime; // копируем endTime
         for (Integer subtaskId : epic.getSubtaskIds()) {
             this.subtaskIds.add(subtaskId);
         }
@@ -41,6 +46,17 @@ public class Epic extends Task {
         subtaskIds.clear();
     }
 
+    // сеттер для endTime
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
+
+    // ДОБАВЛЕНО: Переопределение getEndTime для Epic (спринт 8)
+    // В Epic endTime хранится отдельно, так как рассчитывается на основе подзадач
+    @Override
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
 
     @Override
     public String toString() {
