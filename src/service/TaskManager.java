@@ -48,6 +48,9 @@ public interface TaskManager {
 
     List<Subtask> getEpicSubtask(int epicId);
 
-    // Метод для получения истории просмотров
+    //  получение истории просмотров
     List<Task> getHistory();
+
+    // получение задач в порядке приоритета
+    List<Task> getPrioritizedTasks();
 }
