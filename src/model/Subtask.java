@@ -9,9 +9,9 @@ public class Subtask extends Task {
         this.epicId = epicId;
     }
 
+    // меняем  конструктор копирования
     public Subtask(Subtask subtask) {
-        super(subtask.getStatus(), subtask.getName(), subtask.getDescription());
-        setId(subtask.getId());
+        super(subtask);
         this.epicId = subtask.getEpicId();
     }
 

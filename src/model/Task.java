@@ -1,5 +1,7 @@
 package model;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Task {
@@ -7,6 +9,8 @@ public class Task {
     private Status status;
     private String name;
     private String description;
+    private Duration duration;
+    private LocalDateTime startTime;
 
     public Task(Status status, String name, String description) {
         this.status = status;
@@ -19,7 +23,9 @@ public class Task {
         this.status = newTask.status;
         this.name = newTask.name;
         this.description = newTask.description;
-        // конструктор для копии
+        //меняем  копирование- добавление новых полей duration и startTime
+        this.duration = newTask.duration;
+        this.startTime = newTask.startTime;
     }
 
     public void setId(int id) {
@@ -54,7 +60,29 @@ public class Task {
         this.description = description;
     }
 
-    // тип задачи
+    public Duration getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public LocalDateTime getEndTime() {
+        if (startTime == null || duration == null) {
+            return null;
+        }
+        return startTime.plus(duration);
+    }
+
     public TaskType getType() {
         return TaskType.TASK;
     }
@@ -81,4 +109,7 @@ public class Task {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+
 }
+

@@ -8,8 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class InMemoryHistoryManagerTest {
 
@@ -64,4 +63,98 @@ public class InMemoryHistoryManagerTest {
      assertNotNull(history, "история не должна быть пустой.");
         assertEquals(1, history.size(), "история не должна быть пустой.");
    }
+
+
+    @DisplayName("Проверка  пустой истории")
+    @Test
+    public void testEmptyHistory() {
+        List<Task> history = historyManager.getHistory();
+        assertNotNull(history);
+        assertTrue(history.isEmpty());
+    }
+
+
+    @DisplayName("Повторное добавление задачи перемещает её в конец")
+    @Test
+    public void testNoDuplicates() {
+        Task task1 = new Task(Status.NEW, "Task 1", "Description 1");
+        task1.setId(1);
+        Task task2 = new Task(Status.NEW, "Task 2", "Description 2");
+        task2.setId(2);
+        Task task3 = new Task(Status.NEW, "Task 3", "Description 3");
+        task3.setId(3);
+
+        historyManager.add(task1);
+        historyManager.add(task2);
+        historyManager.add(task3);
+        historyManager.add(task1);
+
+        List<Task> history = historyManager.getHistory();
+        assertEquals(3, history.size(), "История не должна содержать дубликаты");
+        assertEquals(1, history.get(2).getId(), "Повторно добавленная задача должна быть в конце");
+    }
+
+
+    @DisplayName("Удаление из истории: удаление из начала истории")
+    @Test
+    public void testRemoveFromBeginning() {
+        Task task1 = new Task(Status.NEW, "Task 1", "Description 1");
+        task1.setId(1);
+        Task task2 = new Task(Status.NEW, "Task 2", "Description 2");
+        task2.setId(2);
+        Task task3 = new Task(Status.NEW, "Task 3", "Description 3");
+        task3.setId(3);
+
+        historyManager.add(task1);
+        historyManager.add(task2);
+        historyManager.add(task3);
+
+        historyManager.remove(1);
+
+        List<Task> history = historyManager.getHistory();
+        assertEquals(2, history.size());
+        assertFalse(history.stream().anyMatch(t -> t.getId() == 1));
+    }
+
+    @DisplayName("Удаления из истории: удаление из середины истории")
+    @Test
+    public void testRemoveFromMiddle() {
+        Task task1 = new Task(Status.NEW, "Task 1", "Description 1");
+        task1.setId(1);
+        Task task2 = new Task(Status.NEW, "Task 2", "Description 2");
+        task2.setId(2);
+        Task task3 = new Task(Status.NEW, "Task 3", "Description 3");
+        task3.setId(3);
+
+        historyManager.add(task1);
+        historyManager.add(task2);
+        historyManager.add(task3);
+
+        historyManager.remove(2);
+
+        List<Task> history = historyManager.getHistory();
+        assertEquals(2, history.size());
+        assertFalse(history.stream().anyMatch(t -> t.getId() == 2));
+    }
+
+    @DisplayName("Удаления из истории: удаление из конца истории")
+    @Test
+    public void testRemoveFromEnd() {
+        Task task1 = new Task(Status.NEW, "Task 1", "Description 1");
+        task1.setId(1);
+        Task task2 = new Task(Status.NEW, "Task 2", "Description 2");
+        task2.setId(2);
+        Task task3 = new Task(Status.NEW, "Task 3", "Description 3");
+        task3.setId(3);
+
+        historyManager.add(task1);
+        historyManager.add(task2);
+        historyManager.add(task3);
+
+        historyManager.remove(3);
+
+        List<Task> history = historyManager.getHistory();
+        assertEquals(2, history.size());
+        assertFalse(history.stream().anyMatch(t -> t.getId() == 3));
+    }
 }

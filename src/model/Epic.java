@@ -1,30 +1,34 @@
 package model;
 
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Epic extends Task {
 
+    private LocalDateTime endTime;
     private final List<Integer> subtaskIds = new ArrayList<>();
 
     public List<Integer> getSubtaskIds() {
         return new ArrayList<>(subtaskIds);
     }
 
+
     public Epic(String name, String description) {
-        super(Status.NEW, name, description); //статус всегда нью
+        super(Status.NEW, name, description);
     }
 
     public Epic(Epic epic) {
-        super(epic.getStatus(), epic.getName(), epic.getDescription());
-        setId(epic.getId());
+        super(epic);
+        this.endTime = epic.endTime;
         for (Integer subtaskId : epic.getSubtaskIds()) {
             this.subtaskIds.add(subtaskId);
         }
     }
 
+
     public void addSubtaskId(int subtaskId) {
-        //  эпик не добавляет сам себя в подзадачи а то тест падал
         if (subtaskId != getId()) {
             subtaskIds.add(subtaskId);
         }
@@ -38,6 +42,16 @@ public class Epic extends Task {
         subtaskIds.clear();
     }
 
+    // сеттер для endTime
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
+
+    @Override
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
     @Override
     public String toString() {
         return "model.Epic{" +
@@ -48,7 +62,6 @@ public class Epic extends Task {
                 ", description='" + getDescription() + '\'' +
                 '}';
     }
-//тип эпик
 
     @Override
     public TaskType getType() {
