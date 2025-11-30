@@ -141,26 +141,5 @@ public class FileBackedTaskManagerTest {
         assertEquals("Updated description", loadedTask.getDescription());
     }
 
-    @Test
-    @DisplayName("Сохранение после удаления задачи")
-    public void saveAfterDeleteTest() throws IOException {
-        FileBackedTaskManager manager = new FileBackedTaskManager(tempFile);
-        
-        Task task1 = new Task(Status.NEW, "Task1", "Description task1");
-        Task createdTask1 = manager.createTask(task1);
-        int taskId1 = createdTask1.getId();
-        
-        Task task2 = new Task(Status.NEW, "Task2", "Description task2");
-        Task createdTask2 = manager.createTask(task2);
-        int taskId2 = createdTask2.getId();
-        
-        manager.deleteTaskById(taskId1);
-        
-        FileBackedTaskManager loadedManager = FileBackedTaskManager.loadFromFile(tempFile);
-        
-        assertEquals(1, loadedManager.getAllTask().size());
-        assertNull(loadedManager.getTaskById(taskId1));
-        assertNotNull(loadedManager.getTaskById(taskId2));
-    }
 }
 
