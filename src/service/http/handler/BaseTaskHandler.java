@@ -1,6 +1,5 @@
 package service.http.handler;
 
-
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import model.Task;
@@ -102,9 +101,8 @@ public abstract class BaseTaskHandler<T extends Task> extends BaseHttpHandler {
             sendResponse(201, updatedJson, exchange);
         }
     }
-//обработка Delete запросов
+
     protected void handleDelete(HttpExchange exchange, String path) throws IOException {
-       //разбираем путь
         String[] deleteSplit = path.split("/");
         if (deleteSplit.length == 3) {
             // удаление по id
@@ -124,13 +122,18 @@ public abstract class BaseTaskHandler<T extends Task> extends BaseHttpHandler {
         sendText(exchange, response, code);
     }
 
-    // Абстрактные методы, которые должны быть реализованы в эпике и подзадаче
     protected abstract T getById(int id);
+
     protected abstract List<T> getAll();
+
     protected abstract T create(T task);
+
     protected abstract void update(T task);
+
     protected abstract void deleteById(int id);
+
     protected abstract void deleteAll();
+
     protected abstract T parseFromJson(String json);
 }
 
