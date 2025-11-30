@@ -67,40 +67,40 @@ public class HttpTaskServer {
 
     public static void main(String[] args) throws IOException {
         TaskManager taskManager = new InMemoryTaskManager();
-        
+
         Task task1 = new Task(Status.NEW, "Задача 1", "Описание задачи 1");
         task1.setStartTime(LocalDateTime.now().plusHours(1));
         task1.setDuration(Duration.ofMinutes(30));
         Task createdTask1 = taskManager.createTask(task1);
-        
+
         Task task2 = new Task(Status.IN_PROGRESS, "Задача 2", "Описание задачи 2");
         task2.setStartTime(LocalDateTime.now().plusHours(2));
         task2.setDuration(Duration.ofMinutes(45));
         Task createdTask2 = taskManager.createTask(task2);
-        
+
         Epic epic1 = new Epic("Эпик 1", "Описание эпика 1");
         Epic createdEpic1 = taskManager.createEpic(epic1);
-        
+
         Subtask subtask1 = new Subtask(Status.NEW, "Подзадача 1", "Описание подзадачи 1", createdEpic1.getId());
         subtask1.setStartTime(LocalDateTime.now().plusHours(3));
         subtask1.setDuration(Duration.ofMinutes(20));
         taskManager.createSubtask(subtask1);
-        
+
         Subtask subtask2 = new Subtask(Status.DONE, "Подзадача 2", "Описание подзадачи 2", createdEpic1.getId());
         subtask2.setStartTime(LocalDateTime.now().plusHours(4));
         subtask2.setDuration(Duration.ofMinutes(25));
         taskManager.createSubtask(subtask2);
-        
+
         taskManager.getTaskById(createdTask1.getId());
         taskManager.getEpicById(createdEpic1.getId());
         taskManager.getTaskById(createdTask2.getId());
-        
+
         System.out.println("Создано тестовых данных:");
         System.out.println("- Задач: 2 (ID: " + createdTask1.getId() + ", " + createdTask2.getId() + ")");
         System.out.println("- Эпиков: 1 (ID: " + createdEpic1.getId() + ")");
         System.out.println("- Подзадач: 2 (для эпика " + createdEpic1.getId() + ")");
         System.out.println("- История просмотров: 3 задачи");
-        
+
         HttpTaskServer server = new HttpTaskServer(taskManager);
         server.start();
     }
