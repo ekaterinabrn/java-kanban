@@ -4,6 +4,7 @@ import model.Epic;
 import model.Status;
 import model.Subtask;
 import model.Task;
+import service.exception.NotFoundException;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -34,7 +35,7 @@ public class InMemoryTaskManager implements TaskManager {
         newTask.setId(id);
         newTask.setStatus(Status.NEW);
         if (isTaskOverlapping(newTask, id)) {
-            return null;
+            throw new RuntimeException("overlaps"); //убрала null исключение при пересечении
         }
         Task savedTask = new Task(newTask);
         tasks.put(savedTask.getId(), savedTask);
@@ -46,7 +47,7 @@ public class InMemoryTaskManager implements TaskManager {
     public void updateTask(Task updateTask) {
         if (tasks.containsKey(updateTask.getId())) {
             if (isTaskOverlapping(updateTask, updateTask.getId())) {
-                return;
+                throw new RuntimeException("overlaps"); //убрали пустой возврат бросаем исключение
             }
             Task savedTask = new Task(updateTask);
             savedTask.setId(updateTask.getId());
@@ -81,7 +82,7 @@ public class InMemoryTaskManager implements TaskManager {
     public Task getTaskById(int id) {
         Task task = tasks.get(id);
         if (task == null) {
-            return null;
+            throw new NotFoundException("Задача с id=" + id + " не найдена");
         }
         historyManager.add(task);
         return new Task(task);
@@ -101,11 +102,11 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Epic getEpicById(int id) {
         Epic epic = epics.get(id);
-        if (epic != null) {
-            historyManager.add(epic);
-            return new Epic(epic);
+        if (epic == null) {
+            throw new NotFoundException("Эпик с id=" + id + " не найден");
         }
-        return null;
+        historyManager.add(epic);
+        return new Epic(epic);
     }
 
     @Override
@@ -185,7 +186,7 @@ public class InMemoryTaskManager implements TaskManager {
         int id = generateNextId();
         subtasks.setId(id);
         if (isTaskOverlapping(subtasks, id)) {
-            return null;
+            throw new RuntimeException("overlaps"); //убрала null исключение при пересечении
         }
         Subtask savedSubtask = new Subtask(subtasks);
         subtask.put(id, savedSubtask);
@@ -203,7 +204,7 @@ public class InMemoryTaskManager implements TaskManager {
     public void updateSubtask(Subtask subtasks) {
         if (subtask.containsKey(subtasks.getId())) {
             if (isTaskOverlapping(subtasks, subtasks.getId())) {
-                return;
+                throw new RuntimeException("overlaps"); //бросаем исключение вместо пустово возврата
             }
             Subtask savedSubtask = new Subtask(subtasks);
             subtask.put(subtasks.getId(), savedSubtask);
@@ -219,11 +220,11 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Subtask getSubtaskById(int id) {
         Subtask subtaskItem = subtask.get(id);
-        if (subtaskItem != null) {
-            historyManager.add(subtaskItem);
-            return new Subtask(subtaskItem);
+        if (subtaskItem == null) {
+            throw new NotFoundException("Подзадача с id=" + id + " не найдена");
         }
-        return null;
+        historyManager.add(subtaskItem);
+        return new Subtask(subtaskItem);
     }
 
     @Override

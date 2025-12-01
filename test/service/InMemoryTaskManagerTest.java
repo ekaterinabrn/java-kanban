@@ -138,9 +138,11 @@ public class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager
 
         Task createdTask1 = taskManager.createTask(task1);
         assertNotNull(createdTask1);
-
-        Task createdTask2 = taskManager.createTask(task2);
-        assertNull(createdTask2, "Задачи с пересекающимся временем не должны создаваться");
+//изменили тест с assertNull
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            taskManager.createTask(task2);
+        }, "Задачи с пересекающимся временем должны выбрасывать исключение");
+        assertEquals("overlaps", exception.getMessage());
     }
 
     @DisplayName("Проверки пересечения задач: задачи не пересекаются")
