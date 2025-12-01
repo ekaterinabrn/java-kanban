@@ -4,6 +4,7 @@ import model.Epic;
 import model.Status;
 import model.Subtask;
 import model.Task;
+import service.exception.NotFoundException;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -81,7 +82,7 @@ public class InMemoryTaskManager implements TaskManager {
     public Task getTaskById(int id) {
         Task task = tasks.get(id);
         if (task == null) {
-            return null;
+            throw new NotFoundException("Задача с id=" + id + " не найдена");
         }
         historyManager.add(task);
         return new Task(task);
@@ -101,11 +102,11 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Epic getEpicById(int id) {
         Epic epic = epics.get(id);
-        if (epic != null) {
-            historyManager.add(epic);
-            return new Epic(epic);
+        if (epic == null) {
+            throw new NotFoundException("Эпик с id=" + id + " не найден");
         }
-        return null;
+        historyManager.add(epic);
+        return new Epic(epic);
     }
 
     @Override
@@ -219,11 +220,11 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Subtask getSubtaskById(int id) {
         Subtask subtaskItem = subtask.get(id);
-        if (subtaskItem != null) {
-            historyManager.add(subtaskItem);
-            return new Subtask(subtaskItem);
+        if (subtaskItem == null) {
+            throw new NotFoundException("Подзадача с id=" + id + " не найдена");
         }
-        return null;
+        historyManager.add(subtaskItem);
+        return new Subtask(subtaskItem);
     }
 
     @Override

@@ -159,7 +159,7 @@ public class FileBackedTaskManagerTest {
         FileBackedTaskManager loadedManager = FileBackedTaskManager.loadFromFile(tempFile);
         
         assertEquals(1, loadedManager.getAllTask().size());
-        assertNull(loadedManager.getTaskById(taskId1));
+        assertThrows(service.exception.NotFoundException.class, () -> loadedManager.getTaskById(taskId1));
         assertNotNull(loadedManager.getTaskById(taskId2));
     }
 }
